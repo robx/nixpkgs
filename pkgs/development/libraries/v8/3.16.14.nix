@@ -27,6 +27,7 @@ stdenv.mkDerivation rec {
     ln -s /usr/bin/xcodebuild $TMPDIR
     ln -s /usr/bin/libtool $TMPDIR
     export PATH=$TMPDIR:$PATH
+    export GYP_DEFINES="mac_deployment_target=$MACOSX_DEPLOYMENT_TARGET"
   '' + ''
     PYTHONPATH="tools/generate_shim_headers:$PYTHONPATH" \
       ${gyp}/bin/gyp \
