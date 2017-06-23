@@ -42,6 +42,8 @@ stdenv.mkDerivation rec {
         ${lib.optionalString armHardFloat "-Dv8_use_arm_eabi_hardfloat=true"} \
         --depth=. -Ibuild/standalone.gypi \
         build/all.gyp
+  '' + stdenv.lib.optionalString stdenv.isDarwin ''
+    sed -i 's@/usr/bin/env python@${python}/bin/python@g' out/gyp-mac-tool
   '';
 
   nativeBuildInputs = [ which ];
