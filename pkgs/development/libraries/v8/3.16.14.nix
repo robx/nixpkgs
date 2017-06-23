@@ -49,7 +49,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ which ];
   buildInputs = [ readline python icu ] ++ lib.optional stdenv.isLinux utillinux;
 
-  NIX_CFLAGS_COMPILE = "-Wno-error";
+  NIX_CFLAGS_COMPILE = "-Wno-error -w";
 
   buildFlags = [
     "-C out"
