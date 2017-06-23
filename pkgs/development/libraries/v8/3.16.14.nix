@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchurl, gyp, readline, python, which, icu, utillinux}:
+{ stdenv, lib, fetchurl, gyp, readline, python, which, icu, utillinux, libtool }:
 
 assert readline != null;
 
@@ -24,9 +24,6 @@ stdenv.mkDerivation rec {
   '';
 
   configurePhase = stdenv.lib.optionalString stdenv.isDarwin ''
-    ln -s /usr/bin/xcodebuild $TMPDIR
-    ln -s /usr/bin/libtool $TMPDIR
-    export PATH=$TMPDIR:$PATH
     export GYP_DEFINES="mac_deployment_target=$MACOSX_DEPLOYMENT_TARGET"
   '' + ''
     PYTHONPATH="tools/generate_shim_headers:$PYTHONPATH" \
@@ -46,7 +43,7 @@ stdenv.mkDerivation rec {
     sed -i 's@/usr/bin/env python@${python}/bin/python@g' out/gyp-mac-tool
   '';
 
-  nativeBuildInputs = [ which ];
+  nativeBuildInputs = [ which libtool ];
   buildInputs = [ readline python icu ] ++ lib.optional stdenv.isLinux utillinux;
 
   NIX_CFLAGS_COMPILE = "-Wno-error -w";
